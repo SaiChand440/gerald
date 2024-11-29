@@ -1,30 +1,49 @@
 // In App.js in a new project
 
 import * as React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, SafeAreaView, Button } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerNavigationProp, useDrawerProgress } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerNavigationProp, useDrawerProgress, useDrawerStatus } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Animated, { interpolate, SharedValue, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, { interpolate, SharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useState } from 'react';
 
 const { width: WINDOW_WIDTH } = Dimensions.get('window');
 
-function HomeScreen() {
+function HomeScreen({ navigation }: { navigation: any }) {
   return (
     <Animated.View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'yellow' }]}>
       <Text>Home Screen</Text>
+      <Button title="Go to Secondary" onPress={() => navigation.navigate('Secondary')} />
     </Animated.View>
   );
 }
 
-function ProfileScreen() {
+function SecondaryScreen({ navigation }: { navigation: any }) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'red' }}>
+    <Animated.View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'green' }]}>
+      <Text>Secondary Screen</Text>
+      <Button title="Go to Home" onPress={() => navigation.goBack()} />
+    </Animated.View>
+  );
+}
+
+function ProfileScreen({ navigation }: { navigation: any }) {
+  const drawerTransform = useDrawerTransform();
+
+  return (
+    <Animated.View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'red' }, drawerTransform]}>
+      <TouchableOpacity onPress={() => navigation.openDrawer()} style={{ position: 'absolute', top: 46, left: 3 }}>
+        <Image
+          source={require('./assets/menu.png')}
+          style={styles.menu}
+        />
+      </TouchableOpacity>
       <Text>Profile Screen</Text>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -41,25 +60,27 @@ const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
 const MyDrawer = () => {
+  
   return (
-    <Animated.View style={[{ flex: 1, backgroundColor: 'blue' }]}>
-    <Drawer.Navigator
-      initialRouteName='Tabs'
-      screenOptions={{
+    <Animated.View style={[{ flex: 1 }]}>
+      <Drawer.Navigator
+        initialRouteName='Tabs'
+        screenOptions={{
         drawerStyle: {
-          backgroundColor: 'red',
-          width: WINDOW_WIDTH * 0.5,
-          position: 'absolute',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
+          backgroundColor: '#1C1B2E',
+          width: WINDOW_WIDTH * 0.4,
         },
-        drawerType: 'back',
+        drawerActiveTintColor: '#DF6C61',
+        drawerActiveBackgroundColor: 'rgba(233,133,104, 0.2)',
+        drawerInactiveTintColor: '#EEEEE1',
+        drawerType: 'slide',
         overlayColor: 'transparent',
         headerShown: false,
         sceneStyle: {
-          backgroundColor: 'red',
+          backgroundColor: '#1C1B2E',
+        },
+        drawerItemStyle: {
+          borderRadius: 10,
         }
       }}
       drawerContent={(props) => {
@@ -73,35 +94,13 @@ const MyDrawer = () => {
       <Drawer.Screen 
         name="Tabs" 
         component={MyTabs}
-        options={{
-          drawerContentStyle: { backgroundColor: 'red' }
-        }}
-      >
-        {/* <MyTabs navigation={navigation}/> */}
-      </Drawer.Screen>
+      />
         
       <Drawer.Screen 
         name="Profile" 
         component={ProfileScreen}
-        options={{
-          drawerContentStyle: { backgroundColor: 'yellow' },
-          headerTransparent: true,
-          headerTitle: '',
-          headerShown: true,
-          headerLeft: () => {
-            const navigation = useNavigation<DrawerNavigationProp<any>>();
-            return (
-              <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                <Image
-                source={require('./assets/menu.png')}
-                style={styles.menu}
-              />
-              </TouchableOpacity>
-            );
-          },
-        }}
-      />
-    </Drawer.Navigator>
+        />
+      </Drawer.Navigator>
     </Animated.View>
   );
 }
@@ -109,15 +108,17 @@ const MyDrawer = () => {
 const useDrawerTransform = () => {
   const drawerProgress = useDrawerProgress() as SharedValue<number>;
   return useAnimatedStyle(() => {
-    const scale = interpolate(drawerProgress.value, [0, 1], [1, 0.90]);
-    const rotate = interpolate(drawerProgress.value, [0, 1], [0, -3]);
-    const translateY = interpolate(drawerProgress.value, [0, 1], [0, 30]);
+    const scale = interpolate(drawerProgress.value, [0, 1], [1, 0.87]);
+    const rotate = interpolate(drawerProgress.value, [0, 1], [0, -4]);
+    const translateY = interpolate(drawerProgress.value, [0, 1], [0, 0]);
     return { 
       transform: [{ scale }, { 
         rotate: `${rotate}deg`
-      }, {
+      }
+      ,{
         translateY
-      }],
+      }
+    ],
       borderRadius: interpolate(drawerProgress.value, [0, 1], [0, 20])
     };
   });
@@ -139,7 +140,7 @@ const MyTabs = ({ navigation }: { navigation: any }) => {
           </TouchableOpacity>
         ),
       }}>
-        <Tab.Screen name="Stack" component={RootStack} />
+        <Tab.Screen name="Main" component={RootStack} />
         <Tab.Screen name="Contacts" component={ContactsScreen} />
       </Tab.Navigator>
     </Animated.View>
@@ -150,6 +151,7 @@ const RootStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Secondary" component={SecondaryScreen} />
     </Stack.Navigator>
   );
 }
