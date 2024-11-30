@@ -21,7 +21,6 @@ export type TSecondaryStackProps = StackScreenProps<TRootStackParams, "Secondary
 export type TTabScreensProps = {
     Main: undefined;
     Contacts: undefined;
-    Secondary: undefined;
   }
   
 export type TMainStackProps = BottomTabScreenProps<TTabScreensProps, "Main">;
