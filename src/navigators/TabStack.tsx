@@ -27,8 +27,22 @@ export const TabStack: React.FC<TTabsStackProps> = ({ navigation }) => {
         }}
         initialRouteName="Main"
         >
-          <Tab.Screen name="Main" component={RootStack} />
-          <Tab.Screen name="Contacts" component={ContactsScreen} />
+          <Tab.Screen name="Main" component={RootStack} options={{
+            tabBarIcon: ({ focused }) => (
+              <Image source={focused ? require('../../assets/home.png') : require('../../assets/home_outline.png')} style={styles.tabIcon} />
+            ),
+            tabBarLabelStyle: {
+              color: 'black',
+            },
+          }} />
+          <Tab.Screen name="Contacts" component={ContactsScreen} options={{
+            tabBarIcon: ({ focused }) => (
+              <Image source={focused ? require('../../assets/contacts.png') : require('../../assets/contacts_outline.png')} style={styles.tabIcon} />
+            ),
+            tabBarLabelStyle: {
+              color: 'black',
+            },
+          }} />
         </Tab.Navigator>
       </Animated.View>
     );
@@ -43,5 +57,9 @@ const styles = StyleSheet.create({
         width: 24,
         height: 24,
         margin: 20,
+    },
+    tabIcon: {
+        width: 24,
+        height: 24,
     },
 });

@@ -1,12 +1,12 @@
-import { Button, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Animated from "react-native-reanimated";
 import { TContactsStackProps } from "../models/navigationTypes";
+import { colors } from "../utils/colors";
 
 export const ContactsScreen: React.FC<TContactsStackProps> = ({ navigation }) => {
     return (
       <Animated.View style={styles.container}>
-        <Text>Contacts Screen</Text>
-        <Button title="Go to Secondary" onPress={() => navigation.navigate('Secondary')} />
+        <Text style={styles.title}>Contacts Screen</Text>
       </Animated.View>
     );
   }
@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'green'
-    }
+        backgroundColor: colors.tertiary
+      },
+    title: {
+        fontSize: 24,
+        fontWeight: 'semibold',
+    },
 })
