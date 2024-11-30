@@ -1,11 +1,11 @@
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Animated from "react-native-reanimated";
 import { useDrawerTransform } from "../hooks/useDrawerTransform";
-
-export const ProfileScreen = ({ navigation }: { navigation: any }) => {
+import { TProfileStackProps } from "../models/navigationTypes";
+export const ProfileScreen: React.FC<TProfileStackProps> = ({ navigation }) => {
     const drawerTransform = useDrawerTransform();
   
-    return (
+      return (
       <Animated.View style={[styles.container, drawerTransform]}>
         <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.menuContainer}>
           <Image

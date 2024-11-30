@@ -4,10 +4,12 @@ import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { ContactsScreen } from "../screens/ContactsScreen";
 import { RootStack } from "./RootStack";
+import { TTabScreensProps, TTabsStackProps } from "../models/navigationTypes";
 
-const Tab = createBottomTabNavigator();
 
-export const TabStack = ({ navigation }: { navigation: any }) => {
+const Tab = createBottomTabNavigator<TTabScreensProps>();
+
+export const TabStack: React.FC<TTabsStackProps> = ({ navigation }) => {
     const drawerTransform = useDrawerTransform();
     return (
       <Animated.View style={[styles.tabs, drawerTransform]}>
@@ -22,7 +24,9 @@ export const TabStack = ({ navigation }: { navigation: any }) => {
               />
             </TouchableOpacity>
           ),
-        }}>
+        }}
+        initialRouteName="Main"
+        >
           <Tab.Screen name="Main" component={RootStack} />
           <Tab.Screen name="Contacts" component={ContactsScreen} />
         </Tab.Navigator>

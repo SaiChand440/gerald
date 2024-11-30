@@ -1,8 +1,8 @@
-import { NavigationProp } from "@react-navigation/native";
 import { Button, StyleSheet, Text } from "react-native";
 import Animated from "react-native-reanimated";
+import { TSecondaryStackProps } from "../models/navigationTypes";
 
-export const SecondaryScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
+export const SecondaryScreen: React.FC<TSecondaryStackProps> = ({ navigation }) => {
     return (
       <Animated.View style={styles.container}>
         <Text>Secondary Screen</Text>

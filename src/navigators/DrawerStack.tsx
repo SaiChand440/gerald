@@ -1,13 +1,15 @@
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerScreenProps } from '@react-navigation/drawer';
 import { TabStack } from './TabStack';
 import { Dimensions } from 'react-native';
 import { DrawerContent } from '../components/DrawerContent';
 import { ProfileScreen } from '../screens/ProfileScreen';
+import { TDrawerRouteParams } from '../models/navigationTypes';
 
 const { width: WINDOW_WIDTH } = Dimensions.get('window');
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<TDrawerRouteParams>();
+
 
 export const DrawerStack = () => {
     const drawerProgressValue = useSharedValue(0);

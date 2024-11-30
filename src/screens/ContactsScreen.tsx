@@ -1,8 +1,8 @@
-import { NavigationProp } from "@react-navigation/native";
 import { Button, StyleSheet, Text } from "react-native";
 import Animated from "react-native-reanimated";
+import { TContactsStackProps } from "../models/navigationTypes";
 
-export const ContactsScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
+export const ContactsScreen: React.FC<TContactsStackProps> = ({ navigation }) => {
     return (
       <Animated.View style={styles.container}>
         <Text>Contacts Screen</Text>
