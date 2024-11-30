@@ -1,8 +1,12 @@
+
+
+https://github.com/user-attachments/assets/7dc3654a-5e56-4819-aac4-3346c55f8b79
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Video Demo
 
-https://github.com/user-attachments/assets/a3c82f1d-7c2d-48d4-8fa3-89271e48ec22
+https://github.com/user-attachments/assets/eecb072f-ead9-4d09-8016-666197b26542
 
 # Navigation Implementation 
 
@@ -48,4 +52,3 @@ How i arrived at the solution :
  - Screens : This folder contains the screens for the project.
 
  P.S -> All the animations are done using the `react-native-reanimated` library and the codebase is 100% type safe. 
-
